@@ -1,4 +1,4 @@
-use std::{arch::asm, hint::unreachable_unchecked};
+use std::hint::unreachable_unchecked;
 
 #[inline(always)]
 pub fn assume(p: bool) {
@@ -12,7 +12,9 @@ pub fn assume(p: bool) {
 
 #[inline(always)]
 pub fn branch_hint() {
+    /*
     unsafe {
         asm!("", options(nomem, nostack, preserves_flags));
     }
+    */
 }

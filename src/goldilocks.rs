@@ -193,7 +193,7 @@ fn reduce128(x: u128) -> GoldilocksField {
         t0 -= EPSILON; // Cannot underflow.
     }
     let t1 = x_hi_lo * EPSILON;
-    let t2 = unsafe { add_no_canonicalize_trashing_input(t0, t1) };
+    let t2 = add_no_canonicalize_trashing_input(t0, t1);
     GoldilocksField(t2)
 }
 
@@ -203,21 +203,8 @@ fn split(x: u128) -> (u64, u64) {
 }
 
 #[inline(always)]
-#[cfg(target_arch = "x86_64")]
-unsafe fn add_no_canonicalize_trashing_input(x: u64, y: u64) -> u64 {
-    use std::arch::asm;
-    let res_wrapped: u64;
-    let adjustment: u64;
-    asm!(
-        "add {0}, {1}",
-        "sbb {1:e}, {1:e}",
-        inlateout(reg) x => res_wrapped,
-        inlateout(reg) y => adjustment,
-        options(pure, nomem, nostack),
-    );
-    assume(x != 0 || (res_wrapped == y && adjustment == 0));
-    assume(y != 0 || (res_wrapped == x && adjustment == 0));
-    // Add EPSILON == subtract ORDER.
-    // Cannot overflow unless the assumption if x + y < 2**64 + ORDER is incorrect.
-    res_wrapped + adjustment
+fn add_no_canonicalize_trashing_input(x: u64, y: u64) -> u64 {
+    let (res_wrapped, carry) = x.overflowing_add(y);
+    // Below cannot overflow unless the assumption if x + y < 2**64 + ORDER is incorrect.
+    res_wrapped + EPSILON * (carry as u64)
 }

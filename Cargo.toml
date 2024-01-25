@@ -7,3 +7,10 @@ edition = "2021"
 
 [dependencies]
 num = { version = "0.4" }
+wasm-bindgen = "0.2.74"
+serde-wasm-bindgen = "0.4"
+serde_json = { version = "1.0.108", default-features = false, features = ["std"] }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+

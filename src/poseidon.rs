@@ -171,7 +171,7 @@ pub fn poseidon_u64_for_bytes(inputs: &[u64]) -> [u8; 32] {
 
 pub fn poseidon_u64_bytes_for_bytes(bytes: &[u8]) -> [u8; 32] {
     let res = poseidon_u64_bytes(bytes);
-    println!("{:?}", res);
+    //println!("{:?}", res);
     u64s_to_bytes(&res)
         .try_into()
         .expect("slice with incorrect length")

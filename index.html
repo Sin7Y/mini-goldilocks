@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasm Bindgen Poseidon Example</title>
+</head>
+<body>
+
+    <script src="./web/mini_goldilocks_bg.wasm?v=1.0"></script>
+    <script type="module">
+        import init, { poseidon_u64_wrapper,poseidon_u64_bytes_for_bytes_wrapper } from './web/mini_goldilocks.js';
+
+        async function test_poseidon_u64() {
+            try {
+                await init();
+                console.log("poseidon_u64 inputs data:");
+
+                const inputs = new BigUint64Array([1n, 2n, 3n, 4n, 5n, 6n, 7n, 8n, 9n, 10n, 11n, 12n, 13n, 14n]);
+                const dataArray = Array.from(inputs);
+                console.log(dataArray);
+
+                const result = poseidon_u64_wrapper(dataArray);
+                console.log(result);
+            } catch (error) {
+                console.error("Error initializing wasm:", error);
+            }
+        }
+
+        test_poseidon_u64();
+
+        async function test_poseidon_u64_bytes_for_bytes() {
+            try {
+                await init();
+                console.log("poseidon_u64_bytes_for_bytes inputs data:");
+
+                const inputs = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+            24, 25, 26, 27, 28, 29, 30, 31]);
+                const dataArray = Array.from(inputs);
+                console.log(dataArray);
+
+                const result = poseidon_u64_bytes_for_bytes_wrapper(dataArray);
+                console.log(result);
+            } catch (error) {
+                console.error("Error initializing wasm:", error);
+            }
+        }
+
+        test_poseidon_u64_bytes_for_bytes();
+    </script>
+</body>
+</html>
