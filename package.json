@@ -1,0 +1,30 @@
+{
+  "name": "@sin7y/ola-crypto",
+  "version": "0.0.3",
+  "description": "olavm crypto lib such as poseidon hash",
+  "browser": "dist/mini-goldilocks-web.js",
+  "main": "dist/mini-goldilocks-node.js",
+  "files": [
+    "dist/*.ts",
+    "dist/*.wasm",
+    "dist/*.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sin7Y/mini-goldilocks.git"
+  },
+  "keywords": [
+    "ola-lang",
+    "abi"
+  ],
+  "author": "olavm-k Softcloud bchyl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sin7Y/mini-goldilocks/issues"
+  },
+  "homepage": "https://github.com/Sin7Y/ola-lang-abi#readme"
+}
