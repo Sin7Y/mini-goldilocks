@@ -24,7 +24,7 @@ pub fn poseidon_u64_wrapper(inputs: &[u64]) -> Vec<JsValue> {
 
     for value in result.iter() {
         let bigint_value: u64 = *value;
-        let bigint_string = format!("{}n", bigint_value);
+        let bigint_string = format!("{}", bigint_value);
         result_js.push(JsValue::from_str(&bigint_string));
     }
 
@@ -39,7 +39,7 @@ pub fn poseidon_u64_bytes_wrapper(inputs: &[u8]) -> Vec<JsValue> {
 
     for value in result.iter() {
         let bigint_value: u64 = *value;
-        let bigint_string = format!("{}n", bigint_value);
+        let bigint_string = format!("{}", bigint_value);
         result_js.push(JsValue::from_str(&bigint_string));
     }
 

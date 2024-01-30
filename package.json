@@ -1,6 +1,6 @@
 {
   "name": "@sin7y/ola-crypto",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "olavm crypto lib such as poseidon hash",
   "browser": "dist/mini-goldilocks-web.js",
   "main": "dist/mini-goldilocks-node.js",
