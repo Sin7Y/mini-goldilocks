@@ -162,6 +162,18 @@ pub fn poseidon_u64_bytes(bytes: &[u8]) -> [u64; 4] {
     poseidon_u64(&inputs)
 }
 
+pub fn unsafe_poseidon_bytes_auto_padded(bytes: &[u8]) -> [u64; 4] {
+    let mut padded_bytes = bytes.to_vec();
+    let padding_length = if bytes.len() == 0 {
+        8
+    } else {
+        (8 - bytes.len() % 8) % 8
+    };
+    padded_bytes.extend(vec![0; padding_length]);
+    let inputs = bytes_to_u64s(padded_bytes.to_vec());
+    poseidon_u64(&inputs)
+}
+
 pub fn poseidon_u64_for_bytes(inputs: &[u64]) -> [u8; 32] {
     let res = poseidon_u64(inputs);
     u64s_to_bytes(&res)
@@ -195,6 +207,8 @@ fn bytes_to_u64s(bytes: Vec<u8>) -> Vec<u64> {
 
 #[cfg(test)]
 mod tests {
+    use crate::poseidon::unsafe_poseidon_bytes_auto_padded;
+
     use super::{poseidon_u64, poseidon_u64_bytes_for_bytes};
 
     #[test]
@@ -224,6 +238,21 @@ mod tests {
             [
                 85, 160, 96, 159, 172, 88, 72, 90, 174, 246, 73, 172, 217, 75, 152, 86, 110, 234,
                 34, 143, 235, 106, 165, 129, 158, 75, 134, 226, 30, 7, 236, 120
+            ]
+        )
+    }
+
+    #[test]
+    fn test_unsafe_poseidon_auto_padded() {
+        let bytes = [0u8, 1, 2, 3, 4, 5];
+        let hash = unsafe_poseidon_bytes_auto_padded(&bytes);
+        assert_eq!(
+            hash,
+            [
+                10756081017657589599,
+                11213291710047364853,
+                13752587726114651589,
+                17910056882545718701
             ]
         )
     }
