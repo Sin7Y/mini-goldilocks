@@ -221,3 +221,12 @@ unsafe fn add_no_canonicalize_trashing_input(x: u64, y: u64) -> u64 {
     // Cannot overflow unless the assumption if x + y < 2**64 + ORDER is incorrect.
     res_wrapped + adjustment
 }
+
+#[inline(always)]
+#[cfg(not(target_arch = "x86_64"))]
+unsafe fn add_no_canonicalize_trashing_input(x: u64, y: u64) -> u64 {
+    let (res_wrapped, carry) = x.overflowing_add(y);
+    // Below cannot overflow unless the assumption if x + y < 2**64 + ORDER is
+    // incorrect.
+    res_wrapped + EPSILON * (carry as u64)
+}
